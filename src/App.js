@@ -1,13 +1,25 @@
-import React from 'react'
+import { useState } from 'react'
 
 import './styles/app.scss'
 
-const mainURL = `api.openweathermap.org/data/2.5/`
-const apiID = `&appid=${process.env.REACT_APP_API_KEY}`
-
-
+const mainURL = 'https://api.openweathermap.org/data/2.5/weather'
+const apiID = `appid=${process.env.REACT_APP_ACCESS_KEY}`
 
 const App = () => {
+    const [query, setQuery] = useState('')
+    const [weather, setWeather] = useState({})
+
+    const searchWeather = e => {
+        if(e.key === "Enter") {
+            fetch(`${mainURL}?q=${query}&units=metric&${apiID}`)
+            .then(res => res.json())
+            .then(result => {
+                setWeather(result)
+                console.log(result);
+            })
+        }
+    }
+
     const dateBuilder = d => {
         let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -28,6 +40,9 @@ const App = () => {
                         type="text"
                         className="search-bar"
                         placeholder="Search..."
+                        onChange={e => setQuery(e.target.value)}
+                        value={query}
+                        onKeyPress={searchWeather}
                     />
                 </div>
                 <div className="location-box">
