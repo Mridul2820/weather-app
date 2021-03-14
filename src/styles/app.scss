@@ -34,6 +34,8 @@ h3, h4 {
     background-size: cover;
     background-position: bottom;
     transition: .4s ease-out;
+    max-width: 450px;
+    margin: 0 auto;
 
     &.warm {
         background-image: url('../assets/warm-bg.jpg');
